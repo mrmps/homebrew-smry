@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify citations with smry"
+  short_description: "Check claims against public sources"
+  default_prompt: "Use $verify-citations to check this claim against the supplied public source URL."

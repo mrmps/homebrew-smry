@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compare sources with smry"
+  short_description: "Compare claims across public sources"
+  default_prompt: "Use $compare-sources to compare these public source URLs with paragraph-level provenance."
