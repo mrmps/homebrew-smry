@@ -1,0 +1,25 @@
+name: Verify
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install MCP publisher
+        run: |
+          curl --fail --location --silent --show-error \
+            "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" \
+            | tar xz mcp-publisher
+          sudo install mcp-publisher /usr/local/bin/mcp-publisher
+      - name: Verify CLI
+        run: ./tests/smry-cli.test.sh
+      - name: Verify MCP registry metadata and endpoint
+        run: ./tests/mcp-registry.test.sh
