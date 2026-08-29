@@ -51,6 +51,7 @@ secret.
 ```sh
 bash -n bin/smry
 ./tests/smry-cli.test.sh
+./tests/mcp-registry.test.sh
 ```
 
 ## License
