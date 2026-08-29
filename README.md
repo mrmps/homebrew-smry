@@ -38,11 +38,20 @@ The CLI sends only the exact source URL and the options you provide to
 `https://r.smry.ai/api/v1/read`. Do not send private URLs, cookies,
 authorization headers, subscriber credentials, or personal documents.
 
+## Public MCP server
+
+Agents can call the same credential-free reader through the remote
+Streamable HTTP MCP server at `https://r.smry.ai/mcp`. Its official registry
+metadata is versioned in [`server.json`](server.json); the endpoint provides a
+source-reading tool plus documentation resources and requires no account or
+secret.
+
 ## Verify
 
 ```sh
 bash -n bin/smry
 ./tests/smry-cli.test.sh
+./tests/mcp-registry.test.sh
 ```
 
 ## License
