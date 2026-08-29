@@ -1,0 +1,115 @@
+#!/bin/sh
+
+set -eu
+
+VERSION="0.1.0"
+READER_ENDPOINT="https://r.smry.ai/api/v1/read"
+
+usage() {
+  cat <<'EOF'
+Usage: smry [options] <public-url>
+
+Read an exact public article, PDF, or supported YouTube URL through smry.
+
+Options:
+  -j, --json              Return structured JSON instead of plain text
+  -q, --query <text>      Return relevance-ranked paragraphs for a query
+  -l, --lines <range>     Return one paragraph or an inclusive range (90-95)
+  -p, --passages <count>  Limit query results to 1-20 passages
+  -h, --help              Show this help
+      --version           Show the CLI version
+
+Examples:
+  smry https://example.com/article
+  smry --json --query "key findings" https://example.com/report.pdf
+  smry --lines 90-95 https://example.com/article
+EOF
+}
+
+fail() {
+  printf 'smry: %s\n' "$1" >&2
+  exit 2
+}
+
+accept="text/plain"
+query=""
+lines=""
+passages=""
+source_url=""
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -j|--json)
+      accept="application/json"
+      shift
+      ;;
+    -q|--query)
+      [ "$#" -ge 2 ] || fail "$1 requires a value"
+      query="$2"
+      shift 2
+      ;;
+    -l|--lines)
+      [ "$#" -ge 2 ] || fail "$1 requires a value"
+      lines="$2"
+      shift 2
+      ;;
+    -p|--passages)
+      [ "$#" -ge 2 ] || fail "$1 requires a value"
+      passages="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --version)
+      printf 'smry %s\n' "$VERSION"
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      fail "unknown option: $1"
+      ;;
+    *)
+      [ -z "$source_url" ] || fail "provide exactly one public URL"
+      source_url="$1"
+      shift
+      ;;
+  esac
+done
+
+if [ "$#" -gt 0 ]; then
+  [ -z "$source_url" ] || fail "provide exactly one public URL"
+  [ "$#" -eq 1 ] || fail "provide exactly one public URL"
+  source_url="$1"
+fi
+
+[ -n "$source_url" ] || {
+  usage >&2
+  exit 2
+}
+
+case "$source_url" in
+  http://*|https://*) ;;
+  *) fail "source URL must begin with http:// or https://" ;;
+esac
+
+set -- \
+  --fail \
+  --silent \
+  --show-error \
+  --location \
+  --get \
+  "$READER_ENDPOINT" \
+  --data-urlencode "url=$source_url" \
+  --header "Accept: $accept" \
+  --header "User-Agent: smry-cli/$VERSION"
+
+[ -z "$query" ] || set -- "$@" --header "X-Smry-Query: $query"
+[ -z "$lines" ] || set -- "$@" --header "X-Smry-Lines: $lines"
+[ -z "$passages" ] || set -- "$@" --header "X-Smry-Passages: $passages"
+
+exec curl "$@"
