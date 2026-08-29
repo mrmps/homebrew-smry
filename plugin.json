@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "smry-public-reader",
+  "version": "0.1.0",
+  "description": "Read, compare, and verify exact public sources with stable paragraph citations.",
+  "author": {
+    "name": "smry",
+    "email": "michael@smry.ai",
+    "url": "https://smry.ai"
+  },
+  "homepage": "https://r.smry.ai/llms.txt",
+  "repository": "https://github.com/mrmps/homebrew-smry",
+  "license": "MIT",
+  "keywords": ["reading", "citations", "source-grounding", "research"]
+}
