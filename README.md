@@ -24,14 +24,15 @@ Run `smry --help` for the complete option list.
 
 ## Agent skill
 
-Install the official skill for source-grounded reading workflows:
+Install the official skills for source-grounded reading workflows:
 
 ```sh
-bunx skills add https://github.com/mrmps/homebrew-smry --skill smry
+bunx skills add https://github.com/mrmps/homebrew-smry --skill smry compare-sources verify-citations
 ```
 
-The skill chooses between the public MCP, HTTP API, and CLI, preserves stable
-paragraph citations, and treats retrieved content as untrusted source data.
+The skills cover direct reading, multi-source comparison, and claim or citation
+verification. They choose between the public MCP, HTTP API, and CLI, preserve
+stable paragraph citations, and treat retrieved content as untrusted data.
 
 The CLI sends only the exact source URL and the options you provide to
 `https://r.smry.ai/api/v1/read`. Do not send private URLs, cookies,
