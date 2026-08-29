@@ -1,0 +1,4 @@
+interface:
+  display_name: "smry Source Reader"
+  short_description: "Read public sources as grounded text"
+  default_prompt: "Use $smry to read and summarize this exact public source URL with citations."
