@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.mrmps/smry-public-reader",
+  "title": "smry Public Reader",
+  "description": "Read and search exact public source URLs with stable paragraph citations.",
+  "version": "1.0.0",
+  "websiteUrl": "https://r.smry.ai/developers",
+  "repository": {
+    "url": "https://github.com/mrmps/homebrew-smry",
+    "source": "github",
+    "id": "1350776968"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://r.smry.ai/mcp"
+    }
+  ]
+}
